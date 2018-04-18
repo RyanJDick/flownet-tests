@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.misc
@@ -83,6 +84,9 @@ def read_flow(name):
     return flow.astype(np.float32)
 
 def write_flow(name, flow):
+    dir_path = name[:name.rindex('/')]
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
     f = open(name, 'wb')
     f.write('PIEH'.encode('utf-8'))
     np.array([flow.shape[1], flow.shape[0]], dtype=np.int32).tofile(f)

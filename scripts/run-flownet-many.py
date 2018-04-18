@@ -13,7 +13,7 @@ from flowlib import write_flow
 parser = argparse.ArgumentParser()
 parser.add_argument('caffemodel', help='path to model')
 parser.add_argument('deployproto', help='path to deploy prototxt template')
-parser.add_argument('listfile', help='one line should contain paths "img0.ext img1.ext out.flo"')
+parser.add_argument('listfile', help='one line should contain paths "img0.ext img1.ext gt.flo out.flo"')
 parser.add_argument('--gpu',  help='gpu id to use (0, 1, ...)', default=0, type=int)
 parser.add_argument('--verbose',  help='whether to output all caffe logging', action='store_true')
 
@@ -112,5 +112,5 @@ for ent in ops:
 
     blob = np.squeeze(net.blobs['predict_flow_final'].data).transpose(1, 2, 0)
 
-    write_flow(ent[2], blob)
+    write_flow(ent[3], blob)
 
