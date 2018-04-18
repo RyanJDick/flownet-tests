@@ -8,6 +8,7 @@ from scipy import misc
 import caffe
 import tempfile
 from math import ceil
+from flowlib import write_flow
 
 parser = argparse.ArgumentParser()
 parser.add_argument('caffemodel', help='path to model')
@@ -111,29 +112,5 @@ for ent in ops:
 
     blob = np.squeeze(net.blobs['predict_flow_final'].data).transpose(1, 2, 0)
 
-    def readFlow(name):
-        if name.endswith('.pfm') or name.endswith('.PFM'):
-            return readPFM(name)[0][:,:,0:2]
-
-        f = open(name, 'rb')
-
-        header = f.read(4)
-        if header.decode("utf-8") != 'PIEH':
-            raise Exception('Flow file header does not contain PIEH')
-
-        width = np.fromfile(f, np.int32, 1).squeeze()
-        height = np.fromfile(f, np.int32, 1).squeeze()
-
-        flow = np.fromfile(f, np.float32, width * height * 2).reshape((height, width, 2))
-
-        return flow.astype(np.float32)
-
-    def writeFlow(name, flow):
-        f = open(name, 'wb')
-        f.write('PIEH'.encode('utf-8'))
-        np.array([flow.shape[1], flow.shape[0]], dtype=np.int32).tofile(f)
-        flow = flow.astype(np.float32)
-        flow.tofile(f)
-
-    writeFlow(ent[2], blob)
+    write_flow(ent[2], blob)
 

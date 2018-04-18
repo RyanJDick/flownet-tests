@@ -44,7 +44,7 @@ def show_flow(filename):
     plt.imshow(img)
     plt.show()
 
-
+'''
 # WARNING: this will work on little-endian architectures (eg Intel x86) only!
 def read_flow(filename):
     f = open(filename, 'rb')
@@ -63,7 +63,32 @@ def read_flow(filename):
         data2d = np.resize(data2d, (h, w, 2))
     f.close()
     return data2d
+'''
 
+def read_flow(name):
+    if name.endswith('.pfm') or name.endswith('.PFM'):
+        return readPFM(name)[0][:,:,0:2]
+
+    f = open(name, 'rb')
+
+    header = f.read(4)
+    if header.decode("utf-8") != 'PIEH':
+        raise Exception('Flow file header does not contain PIEH')
+
+    width = np.fromfile(f, np.int32, 1).squeeze()
+    height = np.fromfile(f, np.int32, 1).squeeze()
+
+    flow = np.fromfile(f, np.float32, width * height * 2).reshape((height, width, 2))
+
+    return flow.astype(np.float32)
+
+def write_flow(name, flow):
+    f = open(name, 'wb')
+    f.write('PIEH'.encode('utf-8'))
+    np.array([flow.shape[1], flow.shape[0]], dtype=np.int32).tofile(f)
+    flow = flow.astype(np.float32)
+    flow.tofile(f)
+    f.close()
 
 # Calculate average end point error
 def flow_error(tu, tv, u, v):
