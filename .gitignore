@@ -2,3 +2,5 @@ python/caffe/_caffe.so
 *.pyc
 models/reference/*
 build/*
+*.flo
+*.caffemodel
