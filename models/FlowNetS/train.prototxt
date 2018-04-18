@@ -9,10 +9,10 @@ layer {
     phase: TRAIN
   }
   data_param {
-    source: "../../../data/MPI_Sintel_TRAIN_lmdb"
+    source: "../../data/MPI_Sintel_TRAIN_lmdb"
     batch_size: 8
     backend: LMDB
-    preselection_file: "../../../data/MPI_Sintel_train_val_split.list"
+    preselection_file: "../../data/MPI_Sintel_train_val_split.list"
     preselection_label: 1
     rand_permute: true
     rand_permute_seed: 77
@@ -37,10 +37,10 @@ layer {
     phase: TEST
   }
   data_param {
-    source: "../../../data/MPI_Sintel_TRAIN_lmdb"
+    source: "../../data/MPI_Sintel_TRAIN_lmdb"
     batch_size: 8
     backend: LMDB
-    preselection_file: "../../../data/MPI_Sintel_train_val_split.list"
+    preselection_file: "../../data/MPI_Sintel_train_val_split.list"
     preselection_label: 2
     rand_permute: true
     rand_permute_seed: 77
