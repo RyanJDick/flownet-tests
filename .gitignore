@@ -4,3 +4,4 @@ models/reference/*
 build/*
 *.flo
 *.caffemodel
+.build_release/*
