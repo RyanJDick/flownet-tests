@@ -10,7 +10,7 @@ UNKNOWN_FLOW_THRESH = 1e7
 def flow_to_image_file(filename):
     flow = read_flow(filename)
     image = flow_to_image(flow)
-    scipy.misc.imsave(filename.split('.')[0] + ".jpg", image)
+    scipy.misc.imsave(filename[:filename.rindex('.')] + ".jpg", image)
     
 
 def evaluate_flow_file(gt, pred):
